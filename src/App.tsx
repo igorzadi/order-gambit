@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from 'react-router'
+import { Navigate, Route, Routes, useLocation } from 'react-router'
 import type { ReactNode } from 'react'
 import { MatchProvider } from './context/MatchContext'
 import { useMatch } from './context/matchState'
@@ -26,9 +26,10 @@ export default function App() {
 }
 
 function GameApp() {
+  const { pathname } = useLocation()
   return (
     <div className="app">
-      <GameHeader />
+      <GameHeader variant={pathname === '/' || pathname === '/intro' || pathname === '/discover' || pathname === '/practice' || pathname === '/experiment' ? 'experiment' : undefined} />
       <main>
         <Routes>
           <Route path="/" element={<Home />} />

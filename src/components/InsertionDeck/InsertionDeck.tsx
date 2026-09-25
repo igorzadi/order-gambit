@@ -6,7 +6,9 @@ type InsertionDeckProps = {
   cards: readonly CardItem[]
   sortedUntil: number
   currentCard: Readonly<CardItem> | null
+  currentRegionLabel?: string
   showCurrentValue?: boolean
+  futureRegionLabel?: string
   onInsert: (attempt: { cardId: string; targetPosition: number }) => void
 }
 
@@ -32,7 +34,7 @@ function CurrentCard({ card }: { card: CardItem }) {
   return <Card ref={ref} card={card} isDragging={isDragSource} />
 }
 
-export default function InsertionDeck({ cards, sortedUntil, currentCard, onInsert, showCurrentValue = false }: InsertionDeckProps) {
+export default function InsertionDeck({ cards, sortedUntil, currentCard, onInsert, showCurrentValue = false, futureRegionLabel = 'Ainda não processadas', currentRegionLabel = 'Carta atual' }: InsertionDeckProps) {
   const sortedCards = cards.slice(0, sortedUntil + 1)
   const futureCards = cards.slice(sortedUntil + 2)
   const sortedItems = sortedCards.flatMap((card, index) => [
@@ -64,14 +66,14 @@ export default function InsertionDeck({ cards, sortedUntil, currentCard, onInser
           </div>
         </section>
         {currentCard && (
-          <section className="card-region card-region--current" aria-label="Carta atual">
-            <h2>Carta atual{showCurrentValue ? `: ${currentCard.value}` : ''}</h2>
+          <section className="card-region card-region--current" aria-label={currentRegionLabel}>
+            <h2>{currentRegionLabel}{showCurrentValue ? `: ${currentCard.value}` : ''}</h2>
             <CurrentCard key={currentCard.id} card={currentCard} />
           </section>
         )}
         {currentCard && futureCards.length > 0 && (
-          <section className="card-region card-region--future" aria-label="Ainda não processadas">
-            <h2>Ainda não processadas</h2>
+          <section className="card-region card-region--future" aria-label={futureRegionLabel}>
+            <h2>{futureRegionLabel}</h2>
             <div className="insertion-row">
               {futureCards.map((card) => <Card key={card.id} card={card} disabled />)}
             </div>

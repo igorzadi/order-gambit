@@ -1,0 +1,19 @@
+/* Practice reuses Discover's theme; these overrides apply only to its differences. */
+.practice-page .sequence-comparison {
+  width: 100%;
+  margin: 0 0 22px;
+  padding: 20px 24px;
+  border-left: 3px solid var(--pink);
+  background: #ff247f0c;
+}
+.practice-page .sequence-comparison p {
+  max-width: 100%;
+  margin: 0;
+  font: 700 clamp(26px, 2.4vw, 34px)/1.45 'Barlow Condensed', Arial, sans-serif;
+  word-spacing: .3em;
+}
+.practice-page .sequence-comparison > span { color: #ff91c0; }
+@media (max-width: 760px) {
+  .practice-page .sequence-comparison { padding: 16px; }
+  .practice-page .sequence-comparison p { font-size: 25px; }
+}

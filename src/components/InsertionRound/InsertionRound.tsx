@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { Link } from 'react-router'
 import type { InsertionLevel } from '../../game/levels/insertionLevels'
 import { useInsertionRound } from '../../hooks/useInsertionRound'
@@ -7,7 +8,12 @@ import type { InsertionRound as RoundResult } from '../../hooks/insertionRound'
 import ProgressBar from '../ProgressBar/ProgressBar'
 
 type CompletionProps = {
+  keepAction?: { label: string; alwaysAvailable: boolean }
+  currentRegionLabel?: string
+  completionContent?: ReactNode
   onComplete?: (result: RoundResult) => void
+  onReplay?: () => void
+  futureRegionLabel?: string
   completionLabel?: string
 }
 
@@ -16,7 +22,7 @@ type InsertionRoundViewProps = CompletionProps & {
   round: ReturnType<typeof useInsertionRound>
 }
 
-export function InsertionRoundView({ level, round, onComplete, completionLabel = 'Continuar' }: InsertionRoundViewProps) {
+export function InsertionRoundView({ level, round, onComplete, onReplay, futureRegionLabel, currentRegionLabel, keepAction, completionContent, completionLabel = 'Continuar' }: InsertionRoundViewProps) {
   const { state, currentCard, completed, canKeep, keepHere, feedback, attemptInsertion } = round
   const instructions = state.currentIndex > 1 && level.laterInstruction
     ? [level.laterInstruction] : level.instructions
@@ -40,6 +46,8 @@ export function InsertionRoundView({ level, round, onComplete, completionLabel =
         currentCard={currentCard}
         onInsert={attemptInsertion}
         showCurrentValue={level.showCurrentValue}
+        futureRegionLabel={futureRegionLabel}
+        currentRegionLabel={currentRegionLabel}
       />
       <Feedback result={feedback} correctMessage={level.correctFeedback} incorrectMessage={level.incorrectFeedback} />
       {round.operations && (
@@ -48,12 +56,20 @@ export function InsertionRoundView({ level, round, onComplete, completionLabel =
           <span>Deslocamentos: {round.operations.shifts}</span>
         </div>
       )}
-      {canKeep && <button className="next-link" type="button" onClick={keepHere}>Manter aqui</button>}
+      {(keepAction?.alwaysAvailable ? !completed && currentCard !== null : canKeep) && (
+        <button className="next-link" type="button" onClick={() => {
+          if (keepAction?.alwaysAvailable && currentCard) {
+            attemptInsertion({ cardId: currentCard.id, targetPosition: state.currentIndex })
+          } else keepHere()
+        }}>{keepAction?.label ?? 'Manter aqui'}</button>
+      )}
       {completed && (
         <div className="round-completion" role="status">
-          <p>{level.completion[0]}</p>
-          {level.completionHeading && <h2>{level.completionHeading}</h2>}
-          {level.completion.slice(1).map((text) => <p key={text}>{text}</p>)}
+          {completionContent ?? <>
+            <p>{level.completion[0]}</p>
+            {level.completionHeading && <h2>{level.completionHeading}</h2>}
+            {level.completion.slice(1).map((text) => <p key={text}>{text}</p>)}
+          </>}
           {level.showComparison && (
             <div className="sequence-comparison">
               <p aria-label="Sequência inicial">{level.cards.map((card) => card.value).join(' ')}</p>
@@ -71,16 +87,18 @@ export function InsertionRoundView({ level, round, onComplete, completionLabel =
           {onComplete
             ? <button type="button" className="next-link" onClick={() => onComplete(round)}>{completionLabel}</button>
             : <Link className="next-link" to={level.nextPath}>{completionLabel}</Link>}
+          {onReplay && <button type="button" className="next-link" onClick={onReplay}>REFAZER</button>}
         </div>
       )}
     </section>
   )
 }
 
-export default function InsertionRound({ level, trackOperations = false, ...completion }: CompletionProps & {
+export default function InsertionRound({ level, trackOperations = false, persistRound = true, ...completion }: CompletionProps & {
   level: InsertionLevel
   trackOperations?: boolean
+  persistRound?: boolean
 }) {
-  const round = useInsertionRound(level.cards, trackOperations, level.trackPerformance, level.id)
+  const round = useInsertionRound(level.cards, trackOperations, level.trackPerformance, persistRound ? level.id : undefined)
   return <InsertionRoundView level={level} round={round} {...completion} />
 }
