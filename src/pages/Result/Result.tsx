@@ -1,3 +1,4 @@
+import PhaseTheme from '../../components/PhaseTheme/PhaseTheme'
 import { useNavigate } from 'react-router'
 import { useMatch } from '../../context/matchState'
 import { totalScore } from '../../game/session/match'
@@ -9,8 +10,10 @@ export function ResultView({ match, onRestart }: { match: Match; onRestart: () =
   const performance = match.progress.rounds.challenge.performance
   if (!match.progress.completed || !performance?.completed) return null
   return (
+    <PhaseTheme className="result-theme">
     <section aria-labelledby="page-title">
       <h1 id="page-title">🏆 Desafio concluído!</h1>
+      <div className="experiment-panel result-overview">
       <p>{match.saved.playerName}, sua partida foi concluída.</p>
       <h2>Fases concluídas</h2>
       <ul>{match.progress.completedPhases.map((phase) => <li key={phase}>{phaseNames[phase]}</li>)}</ul>
@@ -19,6 +22,8 @@ export function ResultView({ match, onRestart }: { match: Match; onRestart: () =
         <div><dt>Inserções corretas</dt><dd>{performance.correctInsertions}</dd></div>
         <div><dt>Erros cometidos</dt><dd>{performance.incorrectAttempts}</dd></div>
       </dl>
+      </div>
+      <div className="experiment-panel result-learning">
       <p>No Insertion Sort, construímos uma região ordenada progressivamente, inserindo cada novo elemento em sua posição correta.</p>
       <figure className="result-example">
         <figcaption>Uma inserção por vez: parte ordenada | cartas restantes</figcaption>
@@ -26,8 +31,10 @@ export function ResultView({ match, onRestart }: { match: Match; onRestart: () =
           <div key={step}>{index > 0 && <div aria-hidden="true">↓</div>}<p>{step}</p></div>
         ))}
       </figure>
+      </div>
       <button className="next-link" type="button" onClick={onRestart}>Jogar novamente</button>
     </section>
+    </PhaseTheme>
   )
 }
 export default function Result() {

@@ -29,7 +29,7 @@ function GameApp() {
   const { pathname } = useLocation()
   return (
     <div className="app">
-      <GameHeader variant={pathname === '/' || pathname === '/intro' || pathname === '/discover' || pathname === '/practice' || pathname === '/experiment' ? 'experiment' : undefined} />
+      <GameHeader variant={pathname === '/' || pathname === '/intro' || pathname === '/discover' || pathname === '/practice' || pathname === '/experiment' || pathname === '/analyze' || pathname === '/challenge' || pathname === '/result' ? 'experiment' : undefined} />
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
