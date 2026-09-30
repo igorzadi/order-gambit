@@ -49,7 +49,9 @@ describe('Practice e rodada compartilhada', () => {
     const html = renderToStaticMarkup(<MemoryRouter><Practice /></MemoryRouter>)
     expect(html).toContain('🎯 Pratique')
     expect(html).toContain('Agora é sua vez. Execute o Insertion Sort.')
-    expect(html).toContain('Carta atual: 4')
+    expect(html).toContain('<h2>CARTA DA VEZ</h2>')
+    expect(html).toContain('aria-label="Carta 4"')
+    expect(html).not.toContain('Carta atual: 4')
     expect(html).not.toContain('href="/analyze"')
   })
 

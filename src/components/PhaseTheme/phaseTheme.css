@@ -1,0 +1,67 @@
+/* Only Analyze, Challenge and Result use this wrapper. Shared theme stays intact. */
+.phase-theme .analysis-page.discover-round { width: 100%; margin: 0; }
+.phase-theme .analysis-page > h1 { margin-bottom: 44px; }
+.phase-theme .analysis-page > section > h1 {
+  font-size: clamp(32px, 3.5vw, 48px);
+  margin-bottom: 28px;
+}
+.phase-theme .analysis-results article.experiment-panel {
+  padding: 28px 32px;
+  border: 0;
+  border-radius: 0;
+  background: var(--pink);
+}
+.phase-theme .analysis-results h2,
+.phase-theme .analysis-explanation h2,
+.phase-theme .result-overview h2 {
+  color: #ff75ad;
+  font: 400 clamp(26px, 2.8vw, 36px)/1.2 Bangers, system-ui, sans-serif;
+  letter-spacing: .8px;
+}
+.phase-theme .analysis-results p { font-size: 24px; line-height: 1.4; }
+.phase-theme .analysis-explanation h2:not(:first-child) { padding-top: 22px; border-top: 1px solid #ff247f55; }
+.phase-theme .analysis-question-panel { margin: 28px 0; }
+.phase-theme .analysis-question {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  gap: 16px;
+  font-size: 24px;
+  line-height: 1.4;
+}
+.phase-theme .analysis-question legend { padding: 0 0 22px; color: #ff75ad; font-size: clamp(26px, 2.4vw, 34px); line-height: 1.35; }
+.phase-theme .analysis-question label { padding: 10px 12px; border: 1px solid #853456; background: #ff247f0a; }
+.phase-theme .analysis-question label:has(input:checked) { border-color: #ff75ad; background: #ff247f22; }
+.phase-theme .analysis-question input { accent-color: #ff2386; flex-shrink: 0; }
+.phase-theme .analysis-question input:focus-visible { outline: 2px solid #fff3f8; outline-offset: 4px; }
+.phase-theme .analysis-question-panel [role='status'] { color: #ffb3ce; margin-top: 18px; }
+.phase-theme .analysis-example { color: #ff91c0; }
+.phase-theme .analysis-page > .round-completion h2 { color: #ff2386; font: 400 clamp(31px, 3.5vw, 53px)/1.05 Bangers, system-ui, sans-serif; }
+.phase-theme .operation-counts { padding: 16px 20px; border-left: 3px solid var(--pink); background: #09080aeb; font-size: 22px; }
+.phase-theme .round-progress { max-width: 100%; padding: 16px 20px; border-left: 3px solid var(--pink); background: #09080aeb; font-size: 22px; }
+.phase-theme .round-progress progress { accent-color: var(--pink); }
+.phase-theme .challenge-summary { gap: 22px 32px; padding: 20px 24px; border-left: 3px solid var(--pink); background: #ff247f0c; }
+.phase-theme .challenge-summary dt { font-size: 22px; color: #ded1d9; }
+.phase-theme .challenge-summary dd { font: 700 36px/1.2 'Barlow Condensed', Arial, sans-serif; color: #ff91c0; }
+.phase-theme .result-overview,
+.phase-theme .result-learning { margin: 28px 0; padding: 32px 40px; }
+.phase-theme .result-overview li { font-size: 25px; line-height: 1.5; }
+.phase-theme .result-overview li::marker { color: #ff75ad; }
+.phase-theme .result-overview > p { overflow-wrap: anywhere; }
+.phase-theme .result-example { margin: 24px 0 0; padding: 20px 24px; border-left: 3px solid var(--pink); border-radius: 0; background: #ff247f0c; }
+.phase-theme .result-example figcaption { color: #ff91c0; font-size: 23px; }
+.phase-theme .result-example p { font: 700 clamp(25px, 2.4vw, 34px)/1.45 'Barlow Condensed', Arial, sans-serif; word-spacing: .3em; }
+.phase-theme .result-example [aria-hidden] { color: #ff91c0; }
+@media (max-width: 760px) {
+  .phase-theme .analysis-page > h1 { margin-bottom: 36px; }
+  .phase-theme .analysis-results article.experiment-panel,
+  .phase-theme .result-overview,
+  .phase-theme .result-learning { padding: 22px; }
+  .phase-theme .analysis-question,
+  .phase-theme .analysis-results p { font-size: 21px; }
+  .phase-theme .analysis-question legend { font-size: 25px; }
+  .phase-theme .challenge-summary,
+  .phase-theme .result-example { padding: 16px; }
+  .phase-theme .result-overview li { font-size: 22px; }
+}
