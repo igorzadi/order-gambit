@@ -6,7 +6,6 @@ import { canAccessPhase, phasePath } from './game/session/match'
 import type { CurrentPhase } from './game/session/match'
 import GameHeader from './components/GameHeader/GameHeader'
 import Home from './pages/Home/Home'
-import Intro from './pages/Intro/Intro'
 import Experiment from './pages/Experiment/Experiment'
 import Discover from './pages/Discover/Discover'
 import Practice from './pages/Practice/Practice'
@@ -33,7 +32,7 @@ function GameApp() {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/intro" element={<PhaseGate phase="intro"><Intro /></PhaseGate>} />
+          <Route path="/intro" element={<Navigate to="/experiment" replace />} />
           <Route path="/experiment" element={<PhaseGate phase="experiment"><Experiment /></PhaseGate>} />
           <Route path="/discover" element={<PhaseGate phase="discover"><Discover /></PhaseGate>} />
           <Route path="/practice" element={<PhaseGate phase="practice"><Practice /></PhaseGate>} />

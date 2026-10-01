@@ -32,7 +32,7 @@ export default function Home() {
             event.preventDefault()
             if (!name.trim()) return
             context?.start(name)
-            navigate('/intro')
+            navigate('/experiment')
           }}>
             <label htmlFor="player-name">Nome ou apelido</label>
             <input id="player-name" value={name} maxLength={60} required autoComplete="nickname"

@@ -50,7 +50,7 @@ function initialProgress(playerName: string): MatchProgress {
     ...(id === 'challenge' ? { performance: createChallengePerformance(level.cards) } : {}),
   }])) as Record<RoundId, InsertionRound>
   return {
-    currentPhase: playerName ? 'intro' : 'home', completedPhases: [], completed: false,
+    currentPhase: playerName ? 'experiment' : 'home', completedPhases: [], completed: false,
     experiment: [7, 3, 9, 5, 2].map((value, index) => ({ id: `card-${index + 1}`, value })),
     rounds, analysis: createAnalyzeFlow(), selections: {},
   }
@@ -175,6 +175,8 @@ export function restoreMatch(value: unknown): Match | null {
   try {
     for (const event of value.events) {
       if (!isEvent(event)) return null
+      // Older saves include the introduction that is now skipped.
+      if (event.type === 'intro-complete' && match.progress.currentPhase === 'experiment') continue
       const next = updateMatch(match, event)
       if (next === match) return null
       match = next

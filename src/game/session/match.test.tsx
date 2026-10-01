@@ -55,7 +55,7 @@ describe('partida integrada', () => {
   it('cria identidade, jogador e data sem antecipar conclusões', () => {
     const match = start()
     expect(match.saved).toMatchObject({ id: 'match-1', playerName: 'Ana', startedAt: '2026-09-23T12:00:00.000Z' })
-    expect(match.progress.currentPhase).toBe('intro')
+    expect(match.progress.currentPhase).toBe('experiment')
     expect(match.progress.completedPhases).toEqual([])
     expect(totalScore(match)).toBe(0)
     expect(match.progress.completed).toBe(false)
@@ -66,20 +66,25 @@ describe('partida integrada', () => {
     expect(canAccessPhase(null, 'intro')).toBe(false)
     const match = start()
     expect(canAccessPhase(match, 'intro')).toBe(true)
-    for (const phase of ['experiment', 'discover', 'practice', 'analyze', 'challenge', 'result'] as const) {
+    for (const phase of ['discover', 'practice', 'analyze', 'challenge', 'result'] as const) {
       expect(canAccessPhase(match, phase)).toBe(false)
     }
-    expect(phasePath(match.progress.currentPhase)).toBe('/intro')
+    expect(phasePath(match.progress.currentPhase)).toBe('/experiment')
     expect(phasePath('home')).toBe('/')
     expect(match.progress.completedPhases).toEqual([])
   })
 
-  it('libera Experiment somente após a introdução', () => {
-    const match = send(start(), { type: 'intro-complete' })
+  it('libera Experiment diretamente após informar o nome', () => {
+    const match = roundTrip(start())
     expect(match.progress.currentPhase).toBe('experiment')
     expect(canAccessPhase(match, 'experiment')).toBe(true)
     expect(canAccessPhase(match, 'discover')).toBe(false)
     expect(match.progress.completedPhases).toEqual([])
+  })
+
+  it('preserva partidas antigas que concluíram a introdução', () => {
+    const legacy = { ...start().saved, events: [{ type: 'intro-complete' }] }
+    expect(restoreMatch(legacy)?.progress.currentPhase).toBe('experiment')
   })
 
   it('retoma a ordem parcial de Experiment e registra apenas a conclusão real', () => {
